@@ -21,7 +21,6 @@ def s3_connection() :
         print("s3 bucket connected!")
         return s3
 
-s3 = s3_connection()
 
 def upload_file_to_s3(s3, bucket, file, filename) :
     try :
@@ -34,5 +33,6 @@ def upload_file_to_s3(s3, bucket, file, filename) :
         )
 
     except Exception as e :
+        print(e)
         return  False
     return True

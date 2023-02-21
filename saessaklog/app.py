@@ -1,12 +1,10 @@
 
-from flask import Flask, render_template, request ,flash
+from flask import Flask, render_template, request 
 from werkzeug.utils import secure_filename
-from s3_conn import upload_file_to_s3 ,s3_connection
+from s3_conn import upload_file_to_s3 ,s3_connection 
 from config import S3_BUCKET_NAME 
 import datetime as dt
 import os
-
-
 
 app = Flask(__name__)
 
@@ -22,27 +20,22 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
         
 
-
 @app.route("/file_upload", methods = ['GET', 'POST'])
 def upload_file() :
     if request.method == 'POST' :
         file = request.files['file']
         file_name = file.filename.split('.')[0] # 파일명 
         ext = file.filename.split('.')[-1] # 확장자명 
-        img_name = dt.datetime.now().strftime(f"{file_name}-%Y-%m-%d-%H-%H-%S.{ext}")
-        print(img_name)
-        print("==============")
-        print(type(file))
-        s3 = s3_connection
-        upload_file_to_s3(s3,'saessalogfile',file, img_name)
+        img_name = dt.datetime.now().strftime(f"{file_name}-%Y-%m-%d-%H-%H-%S.{ext}")  # ex) 파일명-2023-02-21-22-22-21.png
+      
+        # 버킷에 이미지 업로드 
+        s3  = s3_connection()
+        if upload_file_to_s3(s3,S3_BUCKET_NAME,file, img_name): 
+            return '파일이 저장되었습니다!!'
+        else : return '파일 저장 실패'
         
-        return '파일이 저장되었습니다'
-
     else :
         return render_template("file_upload.html")
-'''
-출처 https://gist.github.com/leongjinqwen/9d9a2d58bf2fb923658820559a88a5ec
-'''
 
 
 # @app.route("/file_upload", methods = ['GET', 'POST'])
