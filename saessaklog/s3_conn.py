@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 from werkzeug.utils import secure_filename
 from config import ACCES_KEY_ID, SECRET_ACCEES_KEY, S3_BUCKET_REGION
 import os
-
+import base64
 
 
 def s3_connection() :
@@ -22,17 +22,20 @@ def s3_connection() :
         return s3
 
 
-def upload_file_to_s3(s3, bucket, file, filename) :
+def upload_file_to_s3(s3, bucket, file, filename, content_type) :
     try :
-        s3.put_object(
+        tmp = s3.put_object(
             Body = file,
             Bucket = bucket,
             Key = f'image/{filename}',
-            ContentType = file.content_type,
+            ContentType = content_type,
             ACL = "public-read" #공개범위설정
         )
+        print(tmp)
 
     except Exception as e :
         print(e)
         return  False
     return True
+
+
