@@ -49,7 +49,7 @@ def upload_file() :
         
         img_buffer = io.BytesIO(decoded_image) # 바이트열 데이터 메모리버퍼로 전환
         img = Image.open(img_buffer) # 메모리 버퍼로부터 이미지 생성
-        file_name = body['fileName']
+        file_name = body['fileName'].split('.')[0]
         img.save(file_name)
         img_file = open(file_name, "rb")
         
@@ -65,7 +65,7 @@ def upload_file() :
         # 버킷에 이미지 업로드 
         s3  = s3_connection()
         if upload_file_to_s3(s3,S3_BUCKET_NAME, img_file, img_name, content_type): 
-            return file_name #'파일이 저장되었습니다. # 자바서버에 key값 주기 create 
+            return img_name #'파일이 저장되었습니다. # 자바서버에 key값 주기 create 
                 
         else : return '파일 저장 실패' 
         
