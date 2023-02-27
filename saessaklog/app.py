@@ -49,7 +49,7 @@ def upload_file() :
         
         img_buffer = io.BytesIO(decoded_image) # 바이트열 데이터 메모리버퍼로 전환
         img = Image.open(img_buffer) # 메모리 버퍼로부터 이미지 생성
-        file_name = body['fileName'].split('.')[0]
+        file_name = body['fileName']
         img.save(file_name)
         img_file = open(file_name, "rb")
         
