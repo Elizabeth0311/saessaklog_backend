@@ -1,0 +1,5 @@
+ACCES_KEY_ID = "AKIATYGJTB6LH5ZM3NNY"
+SECRET_ACCEES_KEY = "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"
+S3_BUCKET_REGION = "ap-northeast-2"
+S3_BUCKET_NAME = "saessaklogfile"
+FLASK_SECRET_KEY = "saessak_servser"
